@@ -7,6 +7,7 @@ export default function HomePage() {
     <div>
       <h1>
         {t("title")}
+        <br />
         {t("desc")}
       </h1>
       <LanguageSwitcher />

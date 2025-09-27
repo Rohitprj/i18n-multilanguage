@@ -8,7 +8,6 @@ export default function LanguageSwitcher() {
   const [isPending, startTransition] = useTransition();
   const [selectedLocale, setSelectedLocale] = useState("en");
 
-  // Read cookie only on client after hydration
   useEffect(() => {
     if (typeof document !== "undefined") {
       const match = document.cookie.match(/locale=(\w+)/);
@@ -22,7 +21,6 @@ export default function LanguageSwitcher() {
     document.cookie = `locale=${locale}; path=/`;
     setSelectedLocale(locale);
 
-    // Refresh page with new locale
     startTransition(() => {
       router.refresh();
     });
@@ -31,7 +29,7 @@ export default function LanguageSwitcher() {
   return (
     <select
       onChange={(e) => changeLanguage(e.target.value)}
-      value={selectedLocale} // controlled state instead of defaultValue
+      value={selectedLocale}
       disabled={isPending}
     >
       <option value="en">English</option>
