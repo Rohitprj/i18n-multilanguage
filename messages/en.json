@@ -2,5 +2,10 @@
   "HomePage": {
     "title": "Hello world!",
     "desc":" This is about page "
+  },
+  "AboutPage": {
+    "title": "About Us",
+    "description": "This app demonstrates how to use next-intl for multilingual support in Next.js.",
+    "backHome": "Back to Home"
   }
 }
