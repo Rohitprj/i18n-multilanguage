@@ -1,14 +1,28 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useTransition } from "react";
+import { useTransition, useEffect, useState } from "react";
 
 export default function LanguageSwitcher() {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
+  const [selectedLocale, setSelectedLocale] = useState("en");
 
-  const changeLanguage = async (locale: string) => {
+  // Read cookie only on client after hydration
+  useEffect(() => {
+    if (typeof document !== "undefined") {
+      const match = document.cookie.match(/locale=(\w+)/);
+      if (match) {
+        setSelectedLocale(match[1]);
+      }
+    }
+  }, []);
+
+  const changeLanguage = (locale: string) => {
     document.cookie = `locale=${locale}; path=/`;
+    setSelectedLocale(locale);
+
+    // Refresh page with new locale
     startTransition(() => {
       router.refresh();
     });
@@ -17,7 +31,7 @@ export default function LanguageSwitcher() {
   return (
     <select
       onChange={(e) => changeLanguage(e.target.value)}
-      defaultValue={document.cookie.includes("locale=hi") ? "hi" : "en"}
+      value={selectedLocale} // controlled state instead of defaultValue
       disabled={isPending}
     >
       <option value="en">English</option>
